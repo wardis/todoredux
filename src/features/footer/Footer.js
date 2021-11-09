@@ -56,7 +56,7 @@ const ColorFilters = ({ value: colors, onChange }) => {
         <span
           className="color-block"
           style={{
-            backgroungColor: color,
+            backgroundColor: color,
           }}
         ></span>
         {capitalize(color)}

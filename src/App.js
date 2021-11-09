@@ -21,7 +21,7 @@ function App() {
           <h2>Todos</h2>
           <div className="todoapp">
             <Header />
-            {/* <TodoList /> */}
+            <TodoList />
             <Footer />
           </div>
         </section>
