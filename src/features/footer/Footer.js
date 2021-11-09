@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { availableColors, capitalize } from '../filters/colors'
 import { StatusFilters } from '../filters/filtersSlice'
 
 const RemainingTodos = ({ count }) => {
@@ -15,7 +16,7 @@ const RemainingTodos = ({ count }) => {
 
 const StatusFilter = ({ value: status, onChange }) => {
   const renderedFilters = Object.keys(StatusFilters).map((key) => {
-    const value = StatusFilter[key]
+    const value = StatusFilters[key]
     const handleClick = () => onChange(value)
     const className = value === status ? 'selected' : ''
 
@@ -36,11 +37,48 @@ const StatusFilter = ({ value: status, onChange }) => {
   )
 }
 
+const ColorFilters = ({ value: colors, onChange }) => {
+  const renderedColors = availableColors.map((color) => {
+    const checked = colors.includes(color)
+    const handleChange = () => {
+      const changeType = checked ? 'removed' : 'added'
+      onChange(color, changeType)
+    }
+
+    return (
+      <label key={color}>
+        <input
+          type="checkbox"
+          name={color}
+          checked={checked}
+          onChange={handleChange}
+        />
+        <span
+          className="color-block"
+          style={{
+            backgroungColor: color,
+          }}
+        ></span>
+        {capitalize(color)}
+      </label>
+    )
+  })
+
+  return (
+    <div className="filters colorFilters">
+      <h5>Filter by Color</h5>
+      <form className="colorSelection">{renderedColors}</form>
+    </div>
+  )
+}
+
 const Footer = () => {
   const colors = []
   const status = StatusFilters.All
   const todosRemaining = 1
 
+  const onColorChange = (color, changeType) =>
+    console.log('Color change: ', { color, changeType })
   const onStatusChange = (status) => console.log('Status change: ', status)
 
   return (
@@ -53,6 +91,7 @@ const Footer = () => {
 
       <RemainingTodos count={todosRemaining} />
       <StatusFilter value={status} onChange={onStatusChange} />
+      <ColorFilters value={colors} onChange={onColorChange} />
     </footer>
   )
 }
